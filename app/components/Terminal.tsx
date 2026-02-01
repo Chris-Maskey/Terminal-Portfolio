@@ -225,9 +225,6 @@ export default function Terminal() {
 
     about: () => (
       <div className="space-y-3">
-        <p className="text-terminal-cyan font-semibold text-lg">
-          {config.about.greeting}
-        </p>
         <p>{config.about.description}</p>
         <div className="mt-2">
           <p className="text-terminal-yellow mb-2">Quick Facts:</p>
@@ -247,7 +244,6 @@ export default function Terminal() {
           <div key={i} className="border-l-2 border-terminal-purple pl-4">
             <p className="text-terminal-purple font-semibold">{edu.degree}</p>
             <p className="text-terminal-cyan">{edu.institution}</p>
-            <p className="text-terminal-text-muted text-sm">{edu.period}</p>
             <p className="text-terminal-text mt-1">{edu.description}</p>
           </div>
         ))}
@@ -293,14 +289,16 @@ export default function Terminal() {
                   </span>
                 ))}
               </div>
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="terminal-link text-sm mt-2 inline-block"
-              >
-                View on GitHub →
-              </a>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="terminal-link text-sm mt-2 inline-block"
+                >
+                  View on GitHub →
+                </a>
+              )}
             </div>
           ))}
         </div>
@@ -373,7 +371,6 @@ export default function Terminal() {
       const socials = [
         { name: "github", url: config.social.github, label: "GitHub" },
         { name: "linkedin", url: config.social.linkedin, label: "LinkedIn" },
-        { name: "twitter", url: config.social.twitter, label: "Twitter" },
         { name: "website", url: config.social.website, label: "Website" },
       ];
 

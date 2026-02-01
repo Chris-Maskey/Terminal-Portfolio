@@ -7,7 +7,7 @@ export interface Project {
   name: string;
   description: string;
   tech: string[];
-  link: string;
+  link?: string;
 }
 
 export interface Experience {
@@ -20,7 +20,6 @@ export interface Experience {
 export interface Education {
   degree: string;
   institution: string;
-  period: string;
   description: string;
 }
 
@@ -43,12 +42,10 @@ export interface Social {
   email: string;
   github: string;
   linkedin: string;
-  twitter: string;
   website: string;
 }
 
 export interface About {
-  greeting: string;
   description: string;
   details: string[];
 }
@@ -81,7 +78,7 @@ export const config: Config = {
   // Terminal Settings
   username: "visitor",
   hostname: "terminal.chris.dev",
-  title: "Terminal",
+  title: "",
 
   // ASCII Art Banner (customize with your name)
   ascii: [
@@ -95,24 +92,21 @@ export const config: Config = {
 
   // About Section
   about: {
-    greeting: "Welcome to my terminal portfolio!",
     description:
       "I'm a software engineer based in Kathmandu, Nepal, with a passion for building robust products and seamless user experiences.",
     details: [
-      "Software Engineer at InvisiRisk, focusing on scalable monorepos and feature management",
-      "Specialized in React, Next.js, TypeScript, and modern full-stack development",
-      "Experienced in building both web and mobile applications (React Native)",
+      "Software Engineer at InvisiRisk",
+      "Specialized in modern full-stack development",
       "First Class Honours graduate in Computing from Islington College",
     ],
   },
 
   // Social Links
   social: {
-    email: "chrismaskey@example.com", // Assuming a common pattern or maintaining placeholder
-    github: "https://github.com/chrismaskey",
+    email: "chrismaskey03@gmail.com",
+    github: "https://github.com/chris-maskey",
     linkedin: "https://linkedin.com/in/chrismaskey",
-    twitter: "https://twitter.com/chrismaskey",
-    website: "https://chrismaskey.com.np",
+    website: "https://chris-maskey.vercel.app/",
   },
 
   // Projects (add your projects here)
@@ -130,7 +124,20 @@ export const config: Config = {
         "Stripe",
         "Leaflet",
       ],
-      link: "https://github.com/chrismaskey/korra",
+      link: "https://github.com/chris-maskey/korra",
+    },
+    {
+      name: "InvisiRisk",
+      description:
+        "A risk management and compliance platform designed to help organizations monitor, assess, and mitigate operational risks.",
+      tech: [
+        "React",
+        "TypeScript",
+        "Python",
+        "FastAPI",
+        "GraphQL",
+        "Tailwind CSS",
+      ],
     },
     {
       name: "Station Control",
@@ -145,14 +152,12 @@ export const config: Config = {
         "Drizzle",
         "Tailwind CSS",
       ],
-      link: "https://github.com/chrismaskey/station-control",
     },
     {
       name: "Kharpan",
       description:
         "A mobile e-commerce application designed for groceries, focusing on a smooth shopping experience.",
       tech: ["React Native", "TypeScript"],
-      link: "https://github.com/chrismaskey/kharpan",
     },
   ],
 
@@ -234,20 +239,17 @@ export const config: Config = {
     {
       degree: "BSc (Hons) in Computing",
       institution: "Islington College (London Metropolitan University)",
-      period: "2020 - 2023",
       description:
         "Graduated with First Class Honours; focused on software engineering and computing principles.",
     },
     {
       degree: "School Leaving Certificate",
       institution: "Ace Higher Secondary School",
-      period: "2018 - 2020",
       description: "Major in Computing and Economics; achieved a GPA of 3.27.",
     },
     {
       degree: "Secondary Education Examination",
       institution: "Brihaspati Vidya Sadan",
-      period: "Completed 2018",
       description: "Achieved a GPA of 3.63.",
     },
   ],
