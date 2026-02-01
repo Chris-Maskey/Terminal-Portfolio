@@ -14,6 +14,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
+        {/* Subtle retro effects */}
+        <div className="vignette" />
+        <div className="scanlines" />
+        
         {children}
       </body>
     </html>
