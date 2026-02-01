@@ -418,7 +418,7 @@ export default function Terminal() {
               className="command-input"
               placeholder="Type a command..."
               autoComplete="off"
-              autoCapitalize="off"
+              autoCapitalize="none"
               autoCorrect="off"
               spellCheck="false"
             />
