@@ -1,26 +1,373 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Terminal Color Palette - Dark Hacker Theme */
+  --terminal-bg: #0d1117;
+  --terminal-bg-secondary: #161b22;
+  --terminal-border: #30363d;
+  --terminal-text: #c9d1d9;
+  --terminal-text-muted: #8b949e;
+  --terminal-green: #7ee787;
+  --terminal-blue: #79c0ff;
+  --terminal-yellow: #e3b341;
+  --terminal-red: #ff7b72;
+  --terminal-purple: #d2a8ff;
+  --terminal-cyan: #56d4dd;
+  --terminal-orange: #ffa657;
+  
+  /* Cursor */
+  --cursor-color: #7ee787;
+  
+  /* Scanline effect */
+  --scanline-color: rgba(0, 0, 0, 0.03);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-terminal-bg: var(--terminal-bg);
+  --color-terminal-bg-secondary: var(--terminal-bg-secondary);
+  --color-terminal-border: var(--terminal-border);
+  --color-terminal-text: var(--terminal-text);
+  --color-terminal-text-muted: var(--terminal-text-muted);
+  --color-terminal-green: var(--terminal-green);
+  --color-terminal-blue: var(--terminal-blue);
+  --color-terminal-yellow: var(--terminal-yellow);
+  --color-terminal-red: var(--terminal-red);
+  --color-terminal-purple: var(--terminal-purple);
+  --color-terminal-cyan: var(--terminal-cyan);
+  --color-terminal-orange: var(--terminal-orange);
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--terminal-bg);
+  color: var(--terminal-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--terminal-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--terminal-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--terminal-text-muted);
+}
+
+/* Selection */
+::selection {
+  background: var(--terminal-green);
+  color: var(--terminal-bg);
+}
+
+/* Terminal Window Chrome */
+.terminal-window {
+  background: var(--terminal-bg);
+  border: 1px solid var(--terminal-border);
+  border-radius: 8px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  overflow: hidden;
+}
+
+.terminal-header {
+  background: var(--terminal-bg-secondary);
+  border-bottom: 1px solid var(--terminal-border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: opacity 0.2s;
+}
+
+.terminal-button:hover {
+  opacity: 0.8;
+}
+
+.terminal-button.close {
+  background: var(--terminal-red);
+}
+
+.terminal-button.minimize {
+  background: var(--terminal-yellow);
+}
+
+.terminal-button.maximize {
+  background: var(--terminal-green);
+}
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  color: var(--terminal-text-muted);
+  font-weight: 500;
+}
+
+/* Terminal Content */
+.terminal-content {
+  padding: 16px;
+  overflow-y: auto;
+  height: calc(100% - 45px);
+}
+
+/* Command Line */
+.command-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.prompt {
+  color: var(--terminal-green);
+  font-weight: 600;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.command-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--terminal-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  padding: 0;
+  margin: 0;
+  caret-color: var(--cursor-color);
+}
+
+.command-input::placeholder {
+  color: var(--terminal-text-muted);
+  opacity: 0.5;
+}
+
+/* Output Styling */
+.output-line {
+  margin: 4px 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.output-error {
+  color: var(--terminal-red);
+}
+
+.output-success {
+  color: var(--terminal-green);
+}
+
+.output-warning {
+  color: var(--terminal-yellow);
+}
+
+.output-info {
+  color: var(--terminal-blue);
+}
+
+/* ASCII Art */
+.ascii-art {
+  color: var(--terminal-green);
+  font-size: 12px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  user-select: none;
+}
+
+/* Links in Terminal */
+.terminal-link {
+  color: var(--terminal-cyan);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--terminal-cyan);
+  transition: all 0.2s;
+}
+
+.terminal-link:hover {
+  color: var(--terminal-blue);
+  border-bottom-style: solid;
+}
+
+/* Cursor Blink Animation */
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background: var(--cursor-color);
+  animation: blink 1s infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+/* Scanline Effect */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    var(--scanline-color) 2px,
+    var(--scanline-color) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Typing Animation */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typing-effect {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 0.05s steps(1, end);
+}
+
+/* Glow Effect for Text */
+.glow {
+  text-shadow: 0 0 10px currentColor;
+}
+
+/* Table Styling */
+.terminal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+
+.terminal-table th {
+  color: var(--terminal-yellow);
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid var(--terminal-border);
+  font-weight: 600;
+}
+
+.terminal-table td {
+  padding: 8px;
+  border-bottom: 1px solid var(--terminal-border);
+  color: var(--terminal-text);
+}
+
+.terminal-table tr:hover td {
+  background: var(--terminal-bg-secondary);
+}
+
+/* Auto-complete Suggestions */
+.suggestions {
+  background: var(--terminal-bg-secondary);
+  border: 1px solid var(--terminal-border);
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: 4px;
+  max-width: 300px;
+}
+
+.suggestion-item {
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 2px;
+  color: var(--terminal-text-muted);
+}
+
+.suggestion-item:hover,
+.suggestion-item.selected {
+  background: var(--terminal-green);
+  color: var(--terminal-bg);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
+  
+  .terminal-window {
+    border-radius: 0;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .terminal-content {
+    padding: 12px;
+  }
+  
+  .ascii-art {
+    font-size: 10px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
+  
+  .typing-effect {
+    animation: none;
+    width: 100%;
+  }
 }
